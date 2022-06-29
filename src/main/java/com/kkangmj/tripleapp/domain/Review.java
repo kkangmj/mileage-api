@@ -1,6 +1,12 @@
 package com.kkangmj.tripleapp.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,9 +14,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
-public class Review {
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE review SET is_deleted = true WHERE seq = ?")
+@Where(clause = "is_deleted=false")
+public class Review implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(columnDefinition = "INT UNSIGNED")
@@ -21,6 +40,8 @@ public class Review {
 
   @Column(length = 1000, nullable = false)
   private String content;
+
+  private boolean is_deleted = Boolean.FALSE;
 
   @ManyToOne
   @JoinColumn(
@@ -37,4 +58,31 @@ public class Review {
       nullable = false,
       columnDefinition = "BINARY(16)")
   private User user;
+
+  @OneToMany(
+      mappedBy = "review",
+      cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE},
+      orphanRemoval = true)
+  private List<Photo> photos = new ArrayList<>();
+
+  @Builder
+  public Review(Long seq, UUID id, String content, Place place, User user) {
+    this.seq = seq;
+    this.id = id;
+    this.content = content;
+    this.place = place;
+    this.user = user;
+  }
+
+  public void addPhotos(List<Photo> photos) {
+    this.photos = photos;
+    for (Photo photo : photos) {
+      photo.setReview(this);
+    }
+  }
+
+  public Review updatePhotos(List<Photo> photos) {
+    addPhotos(photos);
+    return this;
+  }
 }
