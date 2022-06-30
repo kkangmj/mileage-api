@@ -1,19 +1,22 @@
 package com.kkangmj.tripleapp.domain;
 
 import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
+@Table(name = "user")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,18 +29,14 @@ public class User {
   @Column(columnDefinition = "BINARY(16)", nullable = false, unique = true)
   private UUID id;
 
-  @Column
-  @ColumnDefault("0")
-  private int contentPoint;
-
-  @Column
-  @ColumnDefault("0")
-  private int bonusPoint;
+  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+  private UserPoint point;
 
   @Builder
-  public User(UUID id, int contentPoint, int bonusPoint) {
+  public User(UUID id) {
     this.id = id;
-    this.contentPoint = contentPoint;
-    this.bonusPoint = bonusPoint;
+    UserPoint userPoint = UserPoint.builder().build();
+    userPoint.setUserId(id);
+    this.point = userPoint;
   }
 }

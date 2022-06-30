@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,12 +19,13 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
+@Table(name="review_image")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE photo SET is_deleted = true WHERE seq = ?")
+@SQLDelete(sql = "UPDATE review_image SET is_deleted = true WHERE seq = ?")
 @Where(clause = "is_deleted=false")
-public class Photo implements Serializable {
+public class ReviewImage implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(columnDefinition = "INT UNSIGNED")
@@ -47,7 +49,7 @@ public class Photo implements Serializable {
   }
 
   @Builder
-  public Photo(UUID id, Review review) {
+  public ReviewImage(UUID id, Review review) {
     this.id = id;
     this.review = review;
   }

@@ -2,14 +2,10 @@ package com.kkangmj.tripleapp.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.kkangmj.tripleapp.domain.Photo;
+import com.kkangmj.tripleapp.domain.ReviewImage;
 import com.kkangmj.tripleapp.domain.Place;
 import com.kkangmj.tripleapp.domain.Review;
 import com.kkangmj.tripleapp.domain.User;
-import com.kkangmj.tripleapp.repository.PhotoRepository;
-import com.kkangmj.tripleapp.repository.PlaceRepository;
-import com.kkangmj.tripleapp.repository.ReviewRepository;
-import com.kkangmj.tripleapp.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +27,7 @@ public class ReviewRepositoryTest {
   @Autowired private ReviewRepository reviewRepository;
   @Autowired private PlaceRepository placeRepository;
   @Autowired private UserRepository userRepository;
-  @Autowired private PhotoRepository photoRepository;
+  @Autowired private ReviewImageRepository reviewImageRepository;
 
   private Place place;
   private User user;
@@ -48,40 +44,40 @@ public class ReviewRepositoryTest {
   @DisplayName("Review 생성하기")
   void createReviewWithPhoto() {
     // given
-    Photo photo1 = Photo.builder().id(UUID.randomUUID()).build();
-    Photo photo2 = Photo.builder().id(UUID.randomUUID()).build();
+    ReviewImage reviewImage1 = ReviewImage.builder().id(UUID.randomUUID()).build();
+    ReviewImage reviewImage2 = ReviewImage.builder().id(UUID.randomUUID()).build();
     Review review =
         Review.builder().id(UUID.randomUUID()).content("content").place(place).user(user).build();
 
     // when
-    Photo[] photos = {photo1, photo2};
-    List<Photo> photoList = new ArrayList<>(Arrays.asList(photos));
-    reviewRepository.save(review.updatePhotos(photoList));
+    ReviewImage[] reviewImages = {reviewImage1, reviewImage2};
+    List<ReviewImage> reviewImageList = new ArrayList<>(Arrays.asList(reviewImages));
+    reviewRepository.save(review.updatePhotos(reviewImageList));
 
     // then
     assertThat(reviewRepository.count()).isEqualTo(1);
-    assertThat(photoRepository.count()).isEqualTo(2);
+    assertThat(reviewImageRepository.count()).isEqualTo(2);
   }
 
   @Test
   @DisplayName("Review 수정하기")
   void updateReviewWithPhoto() {
     // given - photo가 포함된 리뷰 생성
-    Photo photo1 = Photo.builder().id(UUID.randomUUID()).build();
-    Photo photo2 = Photo.builder().id(UUID.randomUUID()).build();
+    ReviewImage reviewImage1 = ReviewImage.builder().id(UUID.randomUUID()).build();
+    ReviewImage reviewImage2 = ReviewImage.builder().id(UUID.randomUUID()).build();
     Review review =
         Review.builder().id(UUID.randomUUID()).content("content").place(place).user(user).build();
 
-    Photo[] photos1 = {photo1, photo2};
-    List<Photo> photoList1 = new ArrayList<>(Arrays.asList(photos1));
-    reviewRepository.save(review.updatePhotos(photoList1));
+    ReviewImage[] photos1 = {reviewImage1, reviewImage2};
+    List<ReviewImage> reviewImageList1 = new ArrayList<>(Arrays.asList(photos1));
+    reviewRepository.save(review.updatePhotos(reviewImageList1));
 
     // when - photo 수정
-    Photo photo3 = Photo.builder().id(UUID.randomUUID()).build();
-    Photo photo4 = Photo.builder().id(UUID.randomUUID()).build();
+    ReviewImage reviewImage3 = ReviewImage.builder().id(UUID.randomUUID()).build();
+    ReviewImage reviewImage4 = ReviewImage.builder().id(UUID.randomUUID()).build();
 
-    Photo[] photos2 = {photo1, photo3, photo4};
-    List<Photo> photoList2 = new ArrayList<>(Arrays.asList(photos2));
+    ReviewImage[] photos2 = {reviewImage1, reviewImage3, reviewImage4};
+    List<ReviewImage> reviewImageList2 = new ArrayList<>(Arrays.asList(photos2));
 
     Review updatedReview =
         Review.builder()
@@ -92,11 +88,11 @@ public class ReviewRepositoryTest {
             .user(user)
             .build();
 
-    reviewRepository.save(updatedReview.updatePhotos(photoList2));
+    reviewRepository.save(updatedReview.updatePhotos(reviewImageList2));
 
     // then
     assertThat(reviewRepository.count()).isEqualTo(1);
-    assertThat(photoRepository.count()).isEqualTo(3);
+    assertThat(reviewImageRepository.count()).isEqualTo(3);
   }
 
   @Test
@@ -105,18 +101,18 @@ public class ReviewRepositoryTest {
     // given
     Review review =
         Review.builder().id(UUID.randomUUID()).content("content").place(place).user(user).build();
-    Photo photo1 = Photo.builder().id(UUID.randomUUID()).build();
-    Photo photo2 = Photo.builder().id(UUID.randomUUID()).build();
+    ReviewImage reviewImage1 = ReviewImage.builder().id(UUID.randomUUID()).build();
+    ReviewImage reviewImage2 = ReviewImage.builder().id(UUID.randomUUID()).build();
 
-    Photo[] photos = {photo1, photo2};
-    List<Photo> photoList = new ArrayList<>(Arrays.asList(photos));
-    reviewRepository.save(review.updatePhotos(photoList));
+    ReviewImage[] reviewImages = {reviewImage1, reviewImage2};
+    List<ReviewImage> reviewImageList = new ArrayList<>(Arrays.asList(reviewImages));
+    reviewRepository.save(review.updatePhotos(reviewImageList));
 
     // when
     reviewRepository.delete(review);
 
     // then
     assertThat(reviewRepository.count()).isEqualTo(0);
-    assertThat(photoRepository.count()).isEqualTo(0);
+    assertThat(reviewImageRepository.count()).isEqualTo(0);
   }
 }

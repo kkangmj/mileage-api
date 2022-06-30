@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
+@Table(name="review")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -61,7 +63,7 @@ public class Review implements Serializable {
       mappedBy = "review",
       cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE},
       orphanRemoval = true)
-  private List<Photo> photos = new ArrayList<>();
+  private List<ReviewImage> reviewImages = new ArrayList<>();
 
   @Builder
   public Review(Long seq, UUID id, String content, Place place, User user) {
@@ -72,15 +74,11 @@ public class Review implements Serializable {
     this.user = user;
   }
 
-  public void addPhotos(List<Photo> photos) {
-    this.photos = photos;
-    for (Photo photo : photos) {
-      photo.setReview(this);
+  public Review updatePhotos(List<ReviewImage> reviewImages) {
+    this.reviewImages = reviewImages;
+    for (ReviewImage reviewImage : reviewImages) {
+      reviewImage.setReview(this);
     }
-  }
-
-  public Review updatePhotos(List<Photo> photos) {
-    addPhotos(photos);
     return this;
   }
 }
