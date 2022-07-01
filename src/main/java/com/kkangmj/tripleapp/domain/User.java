@@ -1,5 +1,6 @@
 package com.kkangmj.tripleapp.domain;
 
+import java.io.Serializable;
 import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,23 +21,23 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(columnDefinition = "INT UNSIGNED")
   private Long seq;
 
   @Column(columnDefinition = "BINARY(16)", nullable = false, unique = true)
-  private UUID id;
+  private UUID uuid;
 
   @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
   private UserPoint point;
 
   @Builder
-  public User(UUID id) {
-    this.id = id;
+  public User(UUID uuid) {
+    this.uuid = uuid;
     UserPoint userPoint = UserPoint.builder().build();
-    userPoint.setUserId(id);
+    userPoint.setUserId(this);
     this.point = userPoint;
   }
 }

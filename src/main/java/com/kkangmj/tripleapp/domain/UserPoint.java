@@ -1,8 +1,13 @@
 package com.kkangmj.tripleapp.domain;
 
+import com.kkangmj.tripleapp.service.AccountEntityListener;
+import java.io.Serializable;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -13,19 +18,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
 
 @Entity
 @Table(name = "user_point")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-public class UserPoint {
+@EntityListeners(value = AccountEntityListener.class)
+public class UserPoint implements Serializable {
   @Id
-  @Column(columnDefinition = "BINARY(16)")
-  private UUID userId;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(columnDefinition = "INT UNSIGNED")
+  private Long seq;
 
   @Column
   @ColumnDefault("0")
@@ -38,7 +42,7 @@ public class UserPoint {
   @OneToOne
   @PrimaryKeyJoinColumn(
       name = "user_id",
-      referencedColumnName = "id",
+      referencedColumnName = "uuid",
       columnDefinition = "BINARY(16)")
   private User user;
 
@@ -48,8 +52,8 @@ public class UserPoint {
     this.bonusPoint = bonusPoint;
   }
 
-  public void setUserId(UUID userId) {
-    this.userId = userId;
+  public void setUserId(User user) {
+    this.user = user;
   }
 
   public void updateContentPoint(int contentPoint) {

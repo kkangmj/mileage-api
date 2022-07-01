@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="place")
+@Table(name = "place")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,10 +25,10 @@ public class Place {
   private Long seq;
 
   @Column(columnDefinition = "BINARY(16)", nullable = false, unique = true)
-  private UUID id;
+  private UUID uuid;
 
   @Builder
-  public Place(UUID id) {
-    this.id = id;
+  public Place(UUID uuid) {
+    this.uuid = uuid;
   }
 }

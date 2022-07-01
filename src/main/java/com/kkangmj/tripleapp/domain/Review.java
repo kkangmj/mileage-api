@@ -23,7 +23,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name="review")
+@Table(name = "review")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,7 +36,7 @@ public class Review implements Serializable {
   private Long seq;
 
   @Column(columnDefinition = "BINARY(16)", nullable = false, unique = true)
-  private UUID id;
+  private UUID uuid;
 
   @Column(length = 1000, nullable = false)
   private String content;
@@ -46,7 +46,7 @@ public class Review implements Serializable {
   @ManyToOne
   @JoinColumn(
       name = "place_id",
-      referencedColumnName = "id",
+      referencedColumnName = "uuid",
       nullable = false,
       columnDefinition = "BINARY(16)")
   private Place place;
@@ -54,7 +54,7 @@ public class Review implements Serializable {
   @ManyToOne
   @JoinColumn(
       name = "user_id",
-      referencedColumnName = "id",
+      referencedColumnName = "uuid",
       nullable = false,
       columnDefinition = "BINARY(16)")
   private User user;
@@ -66,9 +66,9 @@ public class Review implements Serializable {
   private List<ReviewImage> reviewImages = new ArrayList<>();
 
   @Builder
-  public Review(Long seq, UUID id, String content, Place place, User user) {
+  public Review(Long seq, UUID uuid, String content, Place place, User user) {
     this.seq = seq;
-    this.id = id;
+    this.uuid = uuid;
     this.content = content;
     this.place = place;
     this.user = user;
