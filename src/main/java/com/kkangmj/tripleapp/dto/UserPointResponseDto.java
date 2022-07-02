@@ -2,11 +2,12 @@ package com.kkangmj.tripleapp.dto;
 
 import com.kkangmj.tripleapp.domain.UserPoint;
 import java.util.UUID;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserPointResponseDto {
   private UUID id;
   private int contentPoint;

@@ -2,9 +2,9 @@ package com.kkangmj.tripleapp.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.kkangmj.tripleapp.domain.ReviewImage;
 import com.kkangmj.tripleapp.domain.Place;
 import com.kkangmj.tripleapp.domain.Review;
+import com.kkangmj.tripleapp.domain.ReviewImage;
 import com.kkangmj.tripleapp.domain.User;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,8 +34,8 @@ public class ReviewRepositoryTest {
 
   @BeforeEach
   void beforeEach() {
-    place = Place.builder().id(UUID.randomUUID()).build();
-    user = User.builder().id(UUID.randomUUID()).build();
+    place = Place.builder().uuid(UUID.randomUUID()).build();
+    user = User.builder().uuid(UUID.randomUUID()).build();
     placeRepository.save(place);
     userRepository.save(user);
   }
@@ -44,10 +44,10 @@ public class ReviewRepositoryTest {
   @DisplayName("Review 생성하기")
   void createReviewWithPhoto() {
     // given
-    ReviewImage reviewImage1 = ReviewImage.builder().id(UUID.randomUUID()).build();
-    ReviewImage reviewImage2 = ReviewImage.builder().id(UUID.randomUUID()).build();
+    ReviewImage reviewImage1 = ReviewImage.builder().uuid(UUID.randomUUID()).build();
+    ReviewImage reviewImage2 = ReviewImage.builder().uuid(UUID.randomUUID()).build();
     Review review =
-        Review.builder().id(UUID.randomUUID()).content("content").place(place).user(user).build();
+        Review.builder().uuid(UUID.randomUUID()).content("content").place(place).user(user).build();
 
     // when
     ReviewImage[] reviewImages = {reviewImage1, reviewImage2};
@@ -63,18 +63,18 @@ public class ReviewRepositoryTest {
   @DisplayName("Review 수정하기")
   void updateReviewWithPhoto() {
     // given - photo가 포함된 리뷰 생성
-    ReviewImage reviewImage1 = ReviewImage.builder().id(UUID.randomUUID()).build();
-    ReviewImage reviewImage2 = ReviewImage.builder().id(UUID.randomUUID()).build();
+    ReviewImage reviewImage1 = ReviewImage.builder().uuid(UUID.randomUUID()).build();
+    ReviewImage reviewImage2 = ReviewImage.builder().uuid(UUID.randomUUID()).build();
     Review review =
-        Review.builder().id(UUID.randomUUID()).content("content").place(place).user(user).build();
+        Review.builder().uuid(UUID.randomUUID()).content("content").place(place).user(user).build();
 
     ReviewImage[] photos1 = {reviewImage1, reviewImage2};
     List<ReviewImage> reviewImageList1 = new ArrayList<>(Arrays.asList(photos1));
     reviewRepository.save(review.updatePhotos(reviewImageList1));
 
     // when - photo 수정
-    ReviewImage reviewImage3 = ReviewImage.builder().id(UUID.randomUUID()).build();
-    ReviewImage reviewImage4 = ReviewImage.builder().id(UUID.randomUUID()).build();
+    ReviewImage reviewImage3 = ReviewImage.builder().uuid(UUID.randomUUID()).build();
+    ReviewImage reviewImage4 = ReviewImage.builder().uuid(UUID.randomUUID()).build();
 
     ReviewImage[] photos2 = {reviewImage1, reviewImage3, reviewImage4};
     List<ReviewImage> reviewImageList2 = new ArrayList<>(Arrays.asList(photos2));
@@ -82,7 +82,7 @@ public class ReviewRepositoryTest {
     Review updatedReview =
         Review.builder()
             .seq(review.getSeq())
-            .id(review.getId())
+            .uuid(review.getUuid())
             .content("content")
             .place(place)
             .user(user)
@@ -100,9 +100,9 @@ public class ReviewRepositoryTest {
   void deleteReviewAndPhoto() {
     // given
     Review review =
-        Review.builder().id(UUID.randomUUID()).content("content").place(place).user(user).build();
-    ReviewImage reviewImage1 = ReviewImage.builder().id(UUID.randomUUID()).build();
-    ReviewImage reviewImage2 = ReviewImage.builder().id(UUID.randomUUID()).build();
+        Review.builder().uuid(UUID.randomUUID()).content("content").place(place).user(user).build();
+    ReviewImage reviewImage1 = ReviewImage.builder().uuid(UUID.randomUUID()).build();
+    ReviewImage reviewImage2 = ReviewImage.builder().uuid(UUID.randomUUID()).build();
 
     ReviewImage[] reviewImages = {reviewImage1, reviewImage2};
     List<ReviewImage> reviewImageList = new ArrayList<>(Arrays.asList(reviewImages));

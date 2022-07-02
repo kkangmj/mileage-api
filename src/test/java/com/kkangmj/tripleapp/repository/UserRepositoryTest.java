@@ -27,7 +27,7 @@ public class UserRepositoryTest {
   void initialSaveOfUser() {
     // given
     UUID userId = UUID.randomUUID();
-    User user = User.builder().id(userId).build();
+    User user = User.builder().uuid(userId).build();
 
     // when
     userRepository.save(user);
@@ -35,8 +35,9 @@ public class UserRepositoryTest {
     // then
     assertThat(userRepository.count()).isEqualTo(1);
     assertThat(userPointRepository.count()).isEqualTo(1);
-    assertThat(userPointRepository.findById(userId)).isNotEmpty();
-    assertThat(userPointRepository.findById(userId).get().getUserId()).isEqualTo(userId);
+    assertThat(userPointRepository.findByUserIdQuery(userId)).isNotEmpty();
+    assertThat(userPointRepository.findByUserIdQuery(userId).get().getUser().getUuid())
+        .isEqualTo(userId);
   }
 
   @Test
@@ -44,11 +45,11 @@ public class UserRepositoryTest {
   void getUserByUUID() {
     // given
     UUID userId = UUID.randomUUID();
-    User user1 = User.builder().id(userId).build();
+    User user1 = User.builder().uuid(userId).build();
     userRepository.save(user1);
 
     // when
-    User user2 = userRepository.findUserById(userId);
+    User user2 = userRepository.findByUuid(userId).get();
 
     // then
     assertThat(user2).isSameAs(user1);
@@ -59,15 +60,15 @@ public class UserRepositoryTest {
   void updateUserPoint() {
     // given
     UUID userId = UUID.randomUUID();
-    User user = User.builder().id(userId).build();
+    User user = User.builder().uuid(userId).build();
     userRepository.save(user);
 
     // when
-    UserPoint userPoint1 = userPointRepository.findById(userId).get();
+    UserPoint userPoint1 = userPointRepository.findByUserIdQuery(userId).get();
     userPoint1.updatePoints(1, 3);
     userPointRepository.save(userPoint1);
 
-    UserPoint userPoint2 = userPointRepository.findById(userId).get();
+    UserPoint userPoint2 = userPointRepository.findByUserIdQuery(userId).get();
 
     // then
     assertThat(userPoint2.getContentPoint()).isEqualTo(1);
@@ -79,7 +80,7 @@ public class UserRepositoryTest {
   void deleteUser() {
     // given
     UUID userId = UUID.randomUUID();
-    User user = User.builder().id(userId).build();
+    User user = User.builder().uuid(userId).build();
     userRepository.save(user);
 
     // when
