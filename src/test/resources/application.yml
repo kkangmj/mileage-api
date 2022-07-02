@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost:3306/triple-test?serverTimezone=Asia/Seoul
+    username: root
+    password: 45angellakang87
+    driver-class-name: com.mysql.cj.jdbc.Driver
