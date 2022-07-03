@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RequiredArgsConstructor
 @RequestMapping("/point")
-public class PointController {
+public class UserPointController {
 
   private final UserPointService userPointService;
 

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
@@ -28,7 +29,7 @@ import org.hibernate.envers.RelationTargetAuditMode;
 public class UserPoint implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(columnDefinition = "INT UNSIGNED")
+  @Column(name = "seq", columnDefinition = "INT UNSIGNED")
   private Long seq;
 
   @Column
@@ -39,12 +40,11 @@ public class UserPoint implements Serializable {
   @ColumnDefault("0")
   private int bonusPoint;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(
       name = "user_id",
       referencedColumnName = "uuid",
       nullable = false,
-      unique = true,
       columnDefinition = "BINARY(16)")
   private User user;
 
