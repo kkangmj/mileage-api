@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,16 +21,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "review")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE review SET is_deleted = true WHERE seq = ?")
-@Where(clause = "is_deleted=false")
-public class Review implements Serializable {
+@EntityListeners(AuditingEntityListener.class)
+@SQLDelete(sql = "UPDATE review SET is_deleted = true, last_modified_at = now() WHERE seq = ?")
+public class Review extends BaseTimeEntity implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(columnDefinition = "INT UNSIGNED")
@@ -74,11 +75,15 @@ public class Review implements Serializable {
     this.user = user;
   }
 
-  public Review updatePhotos(List<ReviewImage> reviewImages) {
+  public Review savePhotos(List<ReviewImage> reviewImages) {
     this.reviewImages = reviewImages;
     for (ReviewImage reviewImage : reviewImages) {
       reviewImage.setReview(this);
     }
     return this;
+  }
+
+  public void updateContent(String content) {
+    this.content = content;
   }
 }

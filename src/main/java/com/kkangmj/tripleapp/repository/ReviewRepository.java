@@ -13,9 +13,19 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Long> {
+public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRepositorySupport {
 
-  Optional<Review> findByUuid(UUID id);
+  @Query(
+      value =
+          "SELECT review FROM Review review WHERE review.is_deleted = false AND review.uuid = :reviewId")
+  Optional<Review> findByReviewUuid(@Param("reviewId") UUID reviewId);
 
+  @Query(
+      value =
+          "SELECT review FROM Review review WHERE review.is_deleted = false AND review.place = :place")
   List<Review> findReviewByPlace(Place place);
+
+  @Override
+  @Query(value = "SELECT COUNT(review) FROM Review review WHERE review.is_deleted = false")
+  long count();
 }

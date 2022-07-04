@@ -23,8 +23,8 @@ import org.hibernate.annotations.Where;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE review_image SET is_deleted = true WHERE seq = ?")
-@Where(clause = "is_deleted=false")
+@SQLDelete(
+    sql = "UPDATE review_image SET is_deleted = true WHERE seq = ?")
 public class ReviewImage implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
