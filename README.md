@@ -151,6 +151,8 @@
     ]
   }
   ```
+  
+  - 유저의 포인트 변경 이력을 조회할 수 있음.
 
 - GET /history/point/all/{pageId}
 
@@ -176,6 +178,8 @@
     ]
   }
   ```
+  
+  - 모든 유저의 포인트 변경 이력을 조회할 수 있음.
 
 - GET /ping
 
@@ -197,7 +201,7 @@
 - DB Schema 생성
 
   ```sql
-  CREATE SCHEMA `tt` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+  CREATE SCHEMA `{ Schema명 }` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
   ```
 
 - application.properties 파일 변경
