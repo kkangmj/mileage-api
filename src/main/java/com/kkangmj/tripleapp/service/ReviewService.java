@@ -60,7 +60,9 @@ public class ReviewService implements EventService {
         throw new InvalidArgumentException(ErrorCode.INVALID_PARAMETER);
     }
 
-    return ReviewResponseDto.of(UUID.fromString(eventRequestDto.getReviewId()));
+    return ReviewResponseDto.of(
+        UUID.fromString(eventRequestDto.getUserId()),
+        UUID.fromString(eventRequestDto.getReviewId()));
   }
 
   @Transactional
@@ -103,7 +105,7 @@ public class ReviewService implements EventService {
 
     Review review =
         reviewRepository
-            .findByUuid(reviewId)
+            .findByReviewUuid(reviewId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.REVIEW_NOT_FOUND));
 
     int contentPoint = 0;
@@ -118,6 +120,40 @@ public class ReviewService implements EventService {
     review.savePhotos(convertToReviewImageList(attachedPhotoIds));
     review.updateContent(content);
     reviewRepository.save(review);
+
+    UserPoint userPoint =
+        userPointRepository
+            .findByUserIdQuery(userId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+    updateUserPoint(userPoint, contentPoint, bonusPoint);
+  }
+
+  @Transactional
+  protected void deleteReview(UUID reviewId, UUID userId, UUID placeId) {
+
+    Review review =
+        reviewRepository
+            .findByReviewUuid(reviewId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.REVIEW_NOT_FOUND));
+
+    int contentPoint = 0;
+    if (review.getContent().length() > 0) {
+      contentPoint--;
+    }
+    if (review.getReviewImages().size() > 0) {
+      contentPoint--;
+    }
+
+    int bonusPoint = 0;
+    if (reviewRepository.findReviewByCreatedAtBefore(review.getCreatedAt(), placeId).size() == 0
+        && reviewRepository
+                .findReviewByIsDeletedAndLastModifiedAt(review.getCreatedAt(), placeId)
+                .size()
+            == 0) {
+      bonusPoint--;
+    }
+
+    reviewRepository.delete(review);
 
     UserPoint userPoint =
         userPointRepository

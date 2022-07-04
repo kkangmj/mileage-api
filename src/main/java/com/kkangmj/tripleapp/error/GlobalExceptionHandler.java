@@ -1,9 +1,11 @@
 package com.kkangmj.tripleapp.error;
 
 import com.kkangmj.tripleapp.error.exception.ApplicationException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -16,6 +18,7 @@ public class GlobalExceptionHandler {
         .body(new FailureResponseDto(e.getErrorCode(), e.getMessage()));
   }
 
+  /* Validated */
   @ExceptionHandler(ConstraintViolationException.class)
   protected ResponseEntity<FailureResponseDto> handleConstraintViolationException(
       ConstraintViolationException e) {
@@ -30,6 +33,28 @@ public class GlobalExceptionHandler {
                         .getPropertyPath()
                         .toString()
                         .split("\\.")[1]));
+  }
+
+  /* Valid */
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  protected ResponseEntity<FailureResponseDto> handleMethodArgumentNotValidException(
+      MethodArgumentNotValidException e) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(
+            new FailureResponseDto(
+                ErrorCode.INVALID_PARAMETER.getCode(),
+                ErrorCode.INVALID_PARAMETER.getMessage()
+                    + e.getBindingResult().getFieldError().getField()));
+  }
+
+  /* SQL Duplicate */
+  @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+  protected ResponseEntity<FailureResponseDto> handleSQLIntegrityConstraintViolationException(
+      SQLIntegrityConstraintViolationException e) {
+    return ResponseEntity.status(HttpStatus.CONFLICT)
+        .body(
+            new FailureResponseDto(
+                ErrorCode.ALREADY_EXIST.getCode(), ErrorCode.ALREADY_EXIST.getMessage()));
   }
 
   @ExceptionHandler(Exception.class)

@@ -9,8 +9,9 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewResponseDto implements EventResponseDto {
   private UUID userId;
+  private UUID reviewId;
 
-  public static ReviewResponseDto of(UUID userId) {
-    return new ReviewResponseDto(userId);
+  public static ReviewResponseDto of(UUID userId, UUID reviewId) {
+    return new ReviewResponseDto(userId, reviewId);
   }
 }

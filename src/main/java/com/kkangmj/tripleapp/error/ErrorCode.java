@@ -15,6 +15,9 @@ public enum ErrorCode {
   REVIEW_NOT_FOUND("40402", "존재하지 않는 리뷰입니다."),
   PLACE_NOT_FOUND("40403", "존재하지 않는 장소입니다."),
 
+  // CONFLICT
+  ALREADY_EXIST("40901", "이미 존재하는 값입니다."),
+
   // INTERNAL_SERVER_ERROR
   INTERNAL_SERVER_ERROR("50000", "오류가 발생했습니다.");
 

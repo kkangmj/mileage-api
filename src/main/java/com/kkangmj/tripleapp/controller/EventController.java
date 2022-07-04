@@ -25,6 +25,7 @@ public class EventController {
   @PostMapping
   public ResponseEntity<? extends EventResponseDto> handleEvent(
       @RequestBody @Valid EventRequestDto eventRequestDto) {
+
     return ResponseEntity.ok(
         getEventService(eventRequestDto.getEventType()).handleEvent(eventRequestDto));
   }

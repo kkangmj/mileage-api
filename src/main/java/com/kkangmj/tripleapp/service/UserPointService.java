@@ -1,6 +1,5 @@
 package com.kkangmj.tripleapp.service;
 
-import com.kkangmj.tripleapp.domain.User;
 import com.kkangmj.tripleapp.domain.UserPoint;
 import com.kkangmj.tripleapp.dto.PageResponseDto;
 import com.kkangmj.tripleapp.dto.UserPointHistoryDto;
@@ -8,7 +7,6 @@ import com.kkangmj.tripleapp.dto.UserPointResponseDto;
 import com.kkangmj.tripleapp.error.ErrorCode;
 import com.kkangmj.tripleapp.error.exception.NotFoundException;
 import com.kkangmj.tripleapp.repository.UserPointRepository;
-import com.kkangmj.tripleapp.repository.UserRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
