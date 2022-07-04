@@ -2,21 +2,23 @@ package com.kkangmj.tripleapp.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.kkangmj.tripleapp.domain.Place;
-import com.kkangmj.tripleapp.domain.Review;
-import com.kkangmj.tripleapp.domain.User;
-import com.kkangmj.tripleapp.dto.EventAction;
-import com.kkangmj.tripleapp.dto.EventRequestDto;
-import com.kkangmj.tripleapp.dto.EventType;
-import com.kkangmj.tripleapp.repository.PlaceRepository;
-import com.kkangmj.tripleapp.repository.ReviewRepository;
-import com.kkangmj.tripleapp.repository.UserPointRepository;
-import com.kkangmj.tripleapp.repository.UserRepository;
+import com.kkangmj.tripleapp.place.domain.Place;
+import com.kkangmj.tripleapp.review.domain.Review;
+import com.kkangmj.tripleapp.user.domain.User;
+import com.kkangmj.tripleapp.event.controller.EventAction;
+import com.kkangmj.tripleapp.event.dto.EventRequestDto;
+import com.kkangmj.tripleapp.event.controller.EventType;
+import com.kkangmj.tripleapp.place.repository.PlaceRepository;
+import com.kkangmj.tripleapp.review.repository.ReviewRepository;
+import com.kkangmj.tripleapp.user.repository.UserPointRepository;
+import com.kkangmj.tripleapp.user.repository.UserRepository;
+import com.kkangmj.tripleapp.review.service.ReviewService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,8 +36,9 @@ public class ReviewServiceTest {
   @Autowired private ReviewRepository reviewRepository;
   @Autowired private PlaceRepository placeRepository;
 
+  @BeforeEach
   @AfterEach
-  void afterEach() {
+  void beforeAndAfterEach() {
     userRepository.deleteAll();
     reviewRepository.deleteAll();
     placeRepository.deleteAll();
@@ -308,6 +311,8 @@ public class ReviewServiceTest {
             placeId.toString());
 
     reviewService.handleEvent(eventRequestDto3);
+
+    Thread.sleep(1000L);
 
     // when
     EventRequestDto eventRequestDto4 =

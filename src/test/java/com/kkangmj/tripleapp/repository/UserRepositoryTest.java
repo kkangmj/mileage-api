@@ -3,8 +3,10 @@ package com.kkangmj.tripleapp.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kkangmj.tripleapp.TestConfig;
-import com.kkangmj.tripleapp.domain.User;
-import com.kkangmj.tripleapp.domain.UserPoint;
+import com.kkangmj.tripleapp.user.domain.User;
+import com.kkangmj.tripleapp.user.domain.UserPoint;
+import com.kkangmj.tripleapp.user.repository.UserPointRepository;
+import com.kkangmj.tripleapp.user.repository.UserRepository;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

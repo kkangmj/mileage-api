@@ -3,9 +3,12 @@ package com.kkangmj.tripleapp.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kkangmj.tripleapp.TestConfig;
-import com.kkangmj.tripleapp.domain.Place;
-import com.kkangmj.tripleapp.domain.Review;
-import com.kkangmj.tripleapp.domain.User;
+import com.kkangmj.tripleapp.place.domain.Place;
+import com.kkangmj.tripleapp.review.domain.Review;
+import com.kkangmj.tripleapp.user.domain.User;
+import com.kkangmj.tripleapp.place.repository.PlaceRepository;
+import com.kkangmj.tripleapp.review.repository.ReviewRepository;
+import com.kkangmj.tripleapp.user.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;

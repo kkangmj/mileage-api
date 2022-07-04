@@ -1,7 +1,7 @@
 package com.kkangmj.tripleapp;
 
-import com.kkangmj.tripleapp.repository.ReviewRepositorySupport;
-import com.kkangmj.tripleapp.repository.ReviewRepositorySupportImpl;
+import com.kkangmj.tripleapp.review.repository.ReviewRepositorySupport;
+import com.kkangmj.tripleapp.review.repository.ReviewRepositorySupportImpl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
