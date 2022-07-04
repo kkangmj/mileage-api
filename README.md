@@ -2,11 +2,30 @@
 
 > 트리플여행자 클럽 마일리지 서비스
 
+<br>
+
+**Content**
+
+- [Assignment Summary](#assignment-summary)
+  - [목표](#목표)
+  - [Specification](#specification)
+  - [Requirements](#requirements)
+  - [Remark](#remark)
+- [About Project](#about-project)
+  - [기술 스택](#기술-스택)
+  - [ERD](#erd)
+  - [API Spec](#api-spec)
+  - [Running the app](#running-the-app)
+  - [Feature](#feature)
+
+<br>
+
 ## Assignment Summary
 
 ### 목표
 
 사용자가 장소에 리뷰를 작성할 때 포인트를 부여하고, 전체/개인에 대한 포인트 부여 히스토리와 개인별 누적 포인트를 관리하는 애플리케이션 개발
+
 
 ### Specification
 
