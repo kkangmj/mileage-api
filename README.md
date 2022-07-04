@@ -6,17 +6,18 @@
 
 **Content**
 
-- [Assignment Summary](#assignment-summary)
-  - [목표](#목표)
-  - [Specification](#specification)
-  - [Requirements](#requirements)
-  - [Remark](#remark)
-- [About Project](#about-project)
-  - [기술 스택](#기술-스택)
-  - [ERD](#erd)
-  - [API Spec](#api-spec)
-  - [Running the app](#running-the-app)
-  - [Feature](#feature)
+- [triple-app](#triple-app)
+  - [Assignment Summary](#assignment-summary)
+    - [목표](#목표)
+    - [Specification](#specification)
+    - [Requirements](#requirements)
+    - [Remark](#remark)
+  - [About Project](#about-project)
+    - [기술 스택](#기술-스택)
+    - [ERD](#erd)
+    - [API Spec](#api-spec)
+    - [Running the app](#running-the-app)
+    - [Feature](#feature)
 
 <br>
 
@@ -151,6 +152,8 @@
     ]
   }
   ```
+  
+  - 유저의 포인트 변경 이력을 조회할 수 있음.
 
 - GET /history/point/all/{pageId}
 
@@ -176,6 +179,8 @@
     ]
   }
   ```
+  
+  - 모든 유저의 포인트 변경 이력을 조회할 수 있음.
 
 - GET /ping
 
@@ -194,10 +199,16 @@
 
 ### Running the app
 
+- Git Clone
+
+  ```ps
+  git clone https://github.com/kkangmj/triple-assignment
+  ```
+
 - DB Schema 생성
 
   ```sql
-  CREATE SCHEMA `tt` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+  CREATE SCHEMA `{ Schema명 }` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
   ```
 
 - application.properties 파일 변경
@@ -215,17 +226,29 @@
       username: { 사용자 ID }
       password: { 비밀번호 }
       driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # src/test/resources/application.yml
+
+  spring:
+    jpa:
+      show-sql: true
+      hibernate:
+        ddl-auto: create
+    datasource:
+      url: jdbc:mysql://localhost:3306/{ 생성한 Schema명 }?serverTimezone=Asia/Seoul
+      username: { 사용자 ID }
+      password: { 비밀번호 }
+      driver-class-name: com.mysql.cj.jdbc.Driver
   ```
 
 - 빌드 & 실행
 
-```ps
-git clone https://github.com/yanglet/Triple.git
-cd Triple
+  ```ps
+  cd triple-assignment
 
-./gradlew bootjar
-./gradlew bootRun
-```
+  ./gradlew bootjar
+  ./gradlew bootRun
+  ```
 
 ### Feature
 
