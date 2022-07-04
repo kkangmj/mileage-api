@@ -1,8 +1,8 @@
 package com.kkangmj.tripleapp.error;
 
 import com.kkangmj.tripleapp.error.exception.ApplicationException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import javax.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -48,9 +48,9 @@ public class GlobalExceptionHandler {
   }
 
   /* SQL Duplicate */
-  @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-  protected ResponseEntity<FailureResponseDto> handleSQLIntegrityConstraintViolationException(
-      SQLIntegrityConstraintViolationException e) {
+  @ExceptionHandler(DataIntegrityViolationException.class)
+  protected ResponseEntity<FailureResponseDto> handleDataIntegrityViolationException(
+      DataIntegrityViolationException e) {
     return ResponseEntity.status(HttpStatus.CONFLICT)
         .body(
             new FailureResponseDto(

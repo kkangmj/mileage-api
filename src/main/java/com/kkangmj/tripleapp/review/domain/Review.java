@@ -1,6 +1,6 @@
 package com.kkangmj.tripleapp.review.domain;
 
-import com.kkangmj.tripleapp.common.BaseTimeEntity;
+import com.kkangmj.tripleapp.common.domain.BaseTimeEntity;
 import com.kkangmj.tripleapp.user.domain.User;
 import com.kkangmj.tripleapp.place.domain.Place;
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package com.kkangmj.tripleapp.common;
+package com.kkangmj.tripleapp.common.domain;
 
 import java.time.LocalDateTime;
 import javax.persistence.EntityListeners;

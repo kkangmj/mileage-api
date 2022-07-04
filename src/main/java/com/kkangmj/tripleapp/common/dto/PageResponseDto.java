@@ -1,4 +1,4 @@
-package com.kkangmj.tripleapp.common;
+package com.kkangmj.tripleapp.common.dto;
 
 import java.util.List;
 import lombok.AccessLevel;

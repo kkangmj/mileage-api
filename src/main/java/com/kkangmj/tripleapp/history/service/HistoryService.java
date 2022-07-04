@@ -1,6 +1,6 @@
 package com.kkangmj.tripleapp.history.service;
 
-import com.kkangmj.tripleapp.common.PageResponseDto;
+import com.kkangmj.tripleapp.common.dto.PageResponseDto;
 import com.kkangmj.tripleapp.error.ErrorCode;
 import com.kkangmj.tripleapp.error.exception.NotFoundException;
 import com.kkangmj.tripleapp.history.dto.UserPointHistoryDto;

@@ -286,6 +286,8 @@ public class ReviewServiceTest {
 
     reviewService.handleEvent(eventRequestDto1);
 
+    Thread.sleep(1000L);
+
     EventRequestDto eventRequestDto2 =
         new EventRequestDto(
             EventType.REVIEW,
