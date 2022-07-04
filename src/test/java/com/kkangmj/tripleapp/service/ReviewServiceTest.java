@@ -64,7 +64,7 @@ public class ReviewServiceTest {
     // then
     assertThat(userPointRepository.findByUserIdQuery(userId).get().getContentPoint()).isEqualTo(1);
     assertThat(userPointRepository.findByUserIdQuery(userId).get().getBonusPoint()).isEqualTo(1);
-    assertThat(reviewRepository.findByUuid(reviewId).get().getContent()).isEqualTo("Hello");
+    assertThat(reviewRepository.findByReviewUuid(reviewId).get().getContent()).isEqualTo("Hello");
   }
 
   @Test
@@ -106,7 +106,7 @@ public class ReviewServiceTest {
     // then
     assertThat(userPointRepository.findByUserIdQuery(userId).get().getContentPoint()).isEqualTo(2);
     assertThat(userPointRepository.findByUserIdQuery(userId).get().getBonusPoint()).isEqualTo(0);
-    assertThat(reviewRepository.findByUuid(reviewId).get().getContent()).isEqualTo("Hello");
+    assertThat(reviewRepository.findByReviewUuid(reviewId).get().getContent()).isEqualTo("Hello");
   }
 
   @Test
@@ -151,7 +151,7 @@ public class ReviewServiceTest {
 
     // then
     assertThat(userPointRepository.findByUserIdQuery(userId).get().getContentPoint()).isEqualTo(2);
-    assertThat(reviewRepository.findByUuid(reviewId).get().getContent()).isEqualTo("Hello");
+    assertThat(reviewRepository.findByReviewUuid(reviewId).get().getContent()).isEqualTo("Hello");
   }
 
   @Test
@@ -196,6 +196,6 @@ public class ReviewServiceTest {
 
     // then
     assertThat(userPointRepository.findByUserIdQuery(userId).get().getContentPoint()).isEqualTo(1);
-    assertThat(reviewRepository.findByUuid(reviewId).get().getContent()).isEqualTo("Hello");
+    assertThat(reviewRepository.findByReviewUuid(reviewId).get().getContent()).isEqualTo("Hello");
   }
 }

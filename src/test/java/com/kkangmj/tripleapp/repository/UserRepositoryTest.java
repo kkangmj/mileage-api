@@ -2,6 +2,7 @@ package com.kkangmj.tripleapp.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.kkangmj.tripleapp.TestConfig;
 import com.kkangmj.tripleapp.domain.User;
 import com.kkangmj.tripleapp.domain.UserPoint;
 import java.util.UUID;
@@ -12,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @DataJpaTest
+@Import(TestConfig.class)
 @ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class UserRepositoryTest {

@@ -2,6 +2,7 @@ package com.kkangmj.tripleapp.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.kkangmj.tripleapp.TestConfig;
 import com.kkangmj.tripleapp.domain.Place;
 import com.kkangmj.tripleapp.domain.Review;
 import com.kkangmj.tripleapp.domain.ReviewImage;
@@ -18,9 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @DataJpaTest
+@Import(TestConfig.class)
 @ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class ReviewRepositoryTest {
@@ -52,7 +55,7 @@ public class ReviewRepositoryTest {
     // when
     ReviewImage[] reviewImages = {reviewImage1, reviewImage2};
     List<ReviewImage> reviewImageList = new ArrayList<>(Arrays.asList(reviewImages));
-    reviewRepository.save(review.updatePhotos(reviewImageList));
+    reviewRepository.save(review.savePhotos(reviewImageList));
 
     // then
     assertThat(reviewRepository.count()).isEqualTo(1);
@@ -70,7 +73,7 @@ public class ReviewRepositoryTest {
 
     ReviewImage[] photos1 = {reviewImage1, reviewImage2};
     List<ReviewImage> reviewImageList1 = new ArrayList<>(Arrays.asList(photos1));
-    reviewRepository.save(review.updatePhotos(reviewImageList1));
+    reviewRepository.save(review.savePhotos(reviewImageList1));
 
     // when - photo 수정
     ReviewImage reviewImage3 = ReviewImage.builder().uuid(UUID.randomUUID()).build();
@@ -88,7 +91,7 @@ public class ReviewRepositoryTest {
             .user(user)
             .build();
 
-    reviewRepository.save(updatedReview.updatePhotos(reviewImageList2));
+    reviewRepository.save(updatedReview.savePhotos(reviewImageList2));
 
     // then
     assertThat(reviewRepository.count()).isEqualTo(1);
@@ -106,7 +109,7 @@ public class ReviewRepositoryTest {
 
     ReviewImage[] reviewImages = {reviewImage1, reviewImage2};
     List<ReviewImage> reviewImageList = new ArrayList<>(Arrays.asList(reviewImages));
-    reviewRepository.save(review.updatePhotos(reviewImageList));
+    reviewRepository.save(review.savePhotos(reviewImageList));
 
     // when
     reviewRepository.delete(review);
@@ -114,5 +117,32 @@ public class ReviewRepositoryTest {
     // then
     assertThat(reviewRepository.count()).isEqualTo(0);
     assertThat(reviewImageRepository.count()).isEqualTo(0);
+  }
+
+  @Test
+  @DisplayName("Place로 리뷰 조회하기")
+  void getReviewByPlace() {
+    // given
+    User user1 = User.builder().uuid(UUID.randomUUID()).build();
+    userRepository.save(user1);
+
+    Review review1 =
+        Review.builder().uuid(UUID.randomUUID()).content("content").place(place).user(user).build();
+    Review review2 =
+        Review.builder()
+            .uuid(UUID.randomUUID())
+            .content("content")
+            .place(place)
+            .user(user1)
+            .build();
+
+    reviewRepository.save(review1);
+    reviewRepository.save(review2);
+
+    // when
+    List<Review> reviews = reviewRepository.findReviewByPlace(place);
+
+    // then
+    assertThat(reviews.size()).isEqualTo(2);
   }
 }

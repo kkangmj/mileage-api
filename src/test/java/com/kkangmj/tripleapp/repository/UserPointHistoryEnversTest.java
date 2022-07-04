@@ -2,6 +2,7 @@ package com.kkangmj.tripleapp.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.kkangmj.tripleapp.TestConfig;
 import com.kkangmj.tripleapp.domain.User;
 import com.kkangmj.tripleapp.domain.UserPoint;
 import com.kkangmj.tripleapp.repository.UserPointRepository;
@@ -11,9 +12,11 @@ import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import org.aspectj.lang.annotation.After;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,11 +25,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest
+@Import(TestConfig.class)
 @ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
@@ -41,6 +46,12 @@ public class UserPointHistoryEnversTest {
   void beforeEach() {
     entityManager = entityManagerFactory.createEntityManager();
     entityManager.getTransaction().begin();
+  }
+
+  @AfterEach
+  void afterEach() {
+    userRepository.deleteAll();
+    entityManager.getTransaction().commit();
   }
 
   @Test
@@ -62,7 +73,7 @@ public class UserPointHistoryEnversTest {
     userPoint1.updatePoints(3, 2);
     userPointRepository.save(userPoint1);
 
-    entityManager.getTransaction().commit();
+    entityManager.flush();
 
     AuditReader auditReader = AuditReaderFactory.get(entityManager);
     List list =
